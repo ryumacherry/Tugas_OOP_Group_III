@@ -1,0 +1,2 @@
+class Kelas_ClothingProduct {
+}

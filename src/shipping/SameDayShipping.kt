@@ -1,0 +1,4 @@
+package shipping
+
+class SameDayShipping {
+}
