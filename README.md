@@ -126,7 +126,12 @@ Total Bayar : Rp 237.500
 
 | Nama | NIM | Peran |
 |---|---|---|
-| _isi nama_ | _isi NIM_ | _isi peran_ |
+| _Ajeng Az Zahra_ | _225443002_ | _Backend Developer 2_ |
+| _Arlisya Rahwitami_ | _225443004_ | _Backend Developer 1_ |
+| _Nabila Khalishah_ | _225443021_ | _Documentation Lead_ |
+| _Qurrata A'yuni_ | _225443023_ | _Project Lead_ |
+| _Renisa Rahmawati_ | _225443025_ | _System Developer_ |
+| _Shiva Nayla Zahra_ | _225443053_ | _Payment Developer_ |
 
 ## 🤝 Berkontribusi
 
