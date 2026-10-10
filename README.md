@@ -1,6 +1,6 @@
 # Sistem E-Commerce Berbasis Konsol (Kotlin)
 
-Repositori ini berisi proyek simulasi sistem *e-commerce* berbasis konsol (*command-line*) yang dibangun menggunakan Kotlin. Proyek ini dibuat untuk tugas kuliah Pemrograman Berorientasi Objek (PBO/OOP) guna mempraktikkan langsung konsep-konsep utama seperti pewarisan, polimorfisme, abstraksi, enkapsulasi, antarmuka (*interface*), dan *sealed class*.
+Proyek ini merupakan simulasi sistem *e-commerce* berbasis konsol (*command-line*) yang dibangun menggunakan bahasa Kotlin. Proyek ini dibuat untuk tugas kuliah Pemrograman Berorientasi Objek (PBO) guna mempraktikkan langsung konsep-konsep utama seperti pewarisan, polimorfisme, abstraksi, enkapsulasi, antarmuka (*interface*), dan *sealed class*.
 
 Di sini pengguna bisa melihat katalog produk, mendaftarkan akun, mengelola keranjang belanja, melakukan proses *checkout* dengan berbagai metode pembayaran, serta memilih kurir pengiriman berdasarkan jarak.
 
@@ -8,14 +8,14 @@ Di sini pengguna bisa melihat katalog produk, mendaftarkan akun, mengelola keran
 
 ## Gambaran Fitur
 
-- **Pengelolaan Produk:** Menambahkan barang, menampilkan seluruh katalog, dan mencari produk berdasarkan nama atau ID.
-- **Kategori Produk & Diskon:** Tersedia tiga jenis produk (Elektronik, Pakaian, Makanan) dengan logika perhitungan diskon masing-masing.
-- **Pengelolaan Pengguna:** Registrasi akun baru, validasi kata sandi, serta pencatatan riwayat belanja tiap pengguna.
-- **Keranjang Belanja:** Menambah atau menghapus barang dengan pengecekan stok otomatis.
-- **Metode Pembayaran:** Simulasi pembayaran lewat Kartu Kredit, Transfer Bank, dan QRIS lengkap dengan biaya admin masing-masing.
-- **Status Pesanan Terstruktur:** Menggunakan *sealed class* untuk mengunci status pesanan (*Pending*, *Paid*, *Shipped*, *Delivered*, *Cancelled*).
-- **Simulasi Pengiriman:** Menghitung ongkos kirim dan estimasi waktu berdasarkan jarak tempuh (Instant dan Same Day).
-- **Laporan Penjualan:** Rekapitulasi jumlah transaksi dan total pendapatan toko.
+- **Pengelolaan Produk,** Menambahkan barang, menampilkan seluruh katalog, dan mencari produk berdasarkan nama atau ID.
+- **Kategori Produk & Diskon,** Tersedia tiga jenis produk (Elektronik, Pakaian, Makanan) dengan logika perhitungan diskon masing-masing.
+- **Pengelolaan Pengguna,** Registrasi akun baru, validasi kata sandi, serta pencatatan riwayat belanja tiap pengguna.
+- **Keranjang Belanja,** Menambah atau menghapus barang dengan pengecekan stok otomatis.
+- **Metode Pembayaran,** Simulasi pembayaran lewat Kartu Kredit, Transfer Bank, dan QRIS lengkap dengan biaya admin masing-masing.
+- **Status Pesanan Terstruktur,** Menggunakan *sealed class* untuk mengunci status pesanan (*Pending*, *Paid*, *Shipped*, *Delivered*, *Cancelled*).
+- **Simulasi Pengiriman,** Menghitung ongkos kirim dan estimasi waktu berdasarkan jarak tempuh (Instant dan Same Day).
+- **Laporan Penjualan,** Rekapitulasi jumlah transaksi dan total pendapatan toko.
 
 ---
 
@@ -24,29 +24,29 @@ Di sini pengguna bisa melihat katalog produk, mendaftarkan akun, mengelola keran
 ### 1. Skema Pengiriman Berdasarkan Jarak
 Perhitungan ongkos kirim membulatkan jarak ke atas (misalnya 8,2 km dihitung 9 km). Jika jarak pesanan melebihi jangkauan layanan, sistem otomatis membatalkan proses *checkout*. Pesanan dengan jarak lebih dari 40 km tidak dapat dilayani.
 
-- **Instant (0–15 km):** Tarif Rp 10.000 + Rp 2.500/km (Estimasi 1–3 jam).
-- **Same Day (0–40 km):** Tarif Rp 8.000 + Rp 1.500/km (Estimasi 6–12 jam).
+- **Instant (0–15 km),** Tarifnya Rp 10.000 + Rp 2.500/km (Estimasi 1–3 jam).
+- **Same Day (0–40 km),** Tarifnya Rp 8.000 + Rp 1.500/km (Estimasi 6–12 jam).
 
 ### 2. Aturan Diskon Produk
-- **Elektronik:** Diskon dasar 5%. Mendapat tambahan 10% jika tergolong produk premium, dan tambahan 5% jika masa garansi lebih dari 24 bulan (maksimal 20%).
-- **Pakaian:** Diskon dasar 10%. Mendapat tambahan 15% untuk koleksi musiman (*seasonal*), dan tambahan 5% untuk ukuran besar (XL, XXL, XXXL).
-- **Makanan:** Diskon dasar 5%. Mendapat tambahan 20% jika merupakan produk organik.
+- **Barang Elektronik,** Diskon dasar 5%. Mendapat tambahan 10% jika tergolong produk premium, dan tambahan 5% jika masa garansi lebih dari 24 bulan (maksimal 20%).
+- **Pakaian,** Diskon dasar 10%. Mendapat tambahan 15% untuk koleksi musiman (*seasonal*), dan tambahan 5% untuk ukuran besar (XL, XXL, XXXL).
+- **Makanan,** Diskon dasar 5%. Mendapat tambahan 20% jika merupakan produk organik.
 
 ### 3. Biaya Layanan Pembayaran
-- **Kartu Kredit:** Biaya 2% dari total belanja (validasi nomor kartu minimal 16 digit dan CVV 3 digit).
-- **Transfer Bank:** Biaya 1% dengan tarif minimal Rp 5.000 (validasi nomor rekening minimal 8 digit).
-- **QRIS:** Biaya 0,5% (validasi kode QR minimal 10 karakter).
+- **Kartu Kredit,** Biaya 2% dari total belanja (validasi nomor kartu minimal 16 digit dan CVV 3 digit).
+- **Transfer Bank,** Biaya 1% dengan tarif minimal Rp 5.000 (validasi nomor rekening minimal 8 digit).
+- **QRIS,** Biaya 0,5% (validasi kode QR minimal 10 karakter).
 
 ---
 
 ## Penerapan Konsep PBO
 
-- **Abstraction:** Diterapkan pada `Product` sebagai *abstract class* yang mewajibkan kelas turunannya mendefinisikan implementasi `calculateDiscount()` dan `getCategory()`.
-- **Inheritance:** Kelas `ElectronicProduct`, `ClothingProduct`, dan `FoodProduct` mewarisi properti serta fungsi dasar dari `Product`.
-- **Polymorphism:** Perhitungan harga akhir dan diskon berjalan dinamis tergantung objek aslinya, begitu juga dengan implementasi beragam metode pembayaran dan pengiriman.
-- **Encapsulation:** Properti sensitif seperti `price` pada produk dan `password` pada pengguna diset `private` dan hanya bisa diakses atau divalidasi lewat fungsi perantara.
-- **Interface:** Digunakan pada `PaymentMethod` dan `ShippingMethod` sebagai kontrak modular untuk mempermudah penambahan opsi baru di masa mendatang.
-- **Sealed Class:** Digunakan pada `OrderStatus` dan `PaymentResult` agar seluruh kemungkinan status terdefinisi dengan pasti (*exhaustive checking*) saat dievaluasi menggunakan ekspresi `when`.
+- **Abstraction,** Diterapkan pada `Product` sebagai *abstract class* yang mewajibkan kelas turunannya mendefinisikan implementasi `calculateDiscount()` dan `getCategory()`.
+- **Inheritance,** Kelas `ElectronicProduct`, `ClothingProduct`, dan `FoodProduct` mewarisi properti serta fungsi dasar dari `Product`.
+- **Polymorphism,** Perhitungan harga akhir dan diskon berjalan dinamis tergantung objek aslinya, begitu juga dengan implementasi beragam metode pembayaran dan pengiriman.
+- **Encapsulation,** Properti sensitif seperti `price` pada produk dan `password` pada pengguna diset `private` dan hanya bisa diakses atau divalidasi lewat fungsi perantara.
+- **Interface,** Digunakan pada `PaymentMethod` dan `ShippingMethod` sebagai kontrak modular untuk mempermudah penambahan opsi baru di masa mendatang.
+- **Sealed Class,** Digunakan pada `OrderStatus` dan `PaymentResult` agar seluruh kemungkinan status terdefinisi dengan pasti (*exhaustive checking*) saat dievaluasi menggunakan ekspresi `when`.
 
 ---
 
