@@ -1,149 +1,125 @@
-# 🛒 Tugas OOP Group III — Sistem E-Commerce (Kotlin)
+# Sistem E-Commerce Berbasis Konsol (Kotlin)
 
-Aplikasi e-commerce berbasis konsol yang dibuat dengan **Kotlin** untuk mendemonstrasikan konsep **Object-Oriented Programming (OOP)**. Fitur mencakup manajemen produk, keranjang belanja, checkout dengan berbagai metode pembayaran, dan pengiriman berdasarkan jarak.
+Repositori ini berisi proyek simulasi sistem *e-commerce* berbasis konsol (*command-line*) yang dibangun menggunakan Kotlin. Proyek ini dibuat untuk tugas kuliah Pemrograman Berorientasi Objek (PBO/OOP) guna mempraktikkan langsung konsep-konsep utama seperti pewarisan, polimorfisme, abstraksi, enkapsulasi, antarmuka (*interface*), dan *sealed class*.
 
-## ✨ Fitur
+Di sini pengguna bisa melihat katalog produk, mendaftarkan akun, mengelola keranjang belanja, melakukan proses *checkout* dengan berbagai metode pembayaran, serta memilih kurir pengiriman berdasarkan jarak.
 
-- **Manajemen produk** — tambah, cari (nama/ID), dan tampilkan produk
-- **Tiga kategori produk** dengan aturan diskon masing-masing: Elektronik, Pakaian, Makanan
-- **Manajemen user** — registrasi, autentikasi, riwayat order
-- **Keranjang belanja** — tambah/hapus item dengan pengecekan stok
-- **Pembayaran** — Kartu Kredit, Transfer Bank, QRIS (lengkap dengan biaya masing-masing)
-- **Status order** — Pending, Paid, Shipped, Delivered, Cancelled
-- **Pengiriman** — opsi Instant dan Same Day berdasarkan jarak
-- **Laporan penjualan** — total order dan pendapatan
+---
 
-## 🚚 Opsi Pengiriman
+## Gambaran Fitur
 
-| Opsi | Jangkauan | Tarif | Estimasi |
-|---|---|---|---|
-| Instant | 0 – 15 km | Rp 10.000 + Rp 2.500/km | 1–3 jam |
-| Same Day | 0 – 40 km | Rp 8.000 + Rp 1.500/km | 6–12 jam |
+- **Pengelolaan Produk:** Menambahkan barang, menampilkan seluruh katalog, dan mencari produk berdasarkan nama atau ID.
+- **Kategori Produk & Diskon:** Tersedia tiga jenis produk (Elektronik, Pakaian, Makanan) dengan logika perhitungan diskon masing-masing.
+- **Pengelolaan Pengguna:** Registrasi akun baru, validasi kata sandi, serta pencatatan riwayat belanja tiap pengguna.
+- **Keranjang Belanja:** Menambah atau menghapus barang dengan pengecekan stok otomatis.
+- **Metode Pembayaran:** Simulasi pembayaran lewat Kartu Kredit, Transfer Bank, dan QRIS lengkap dengan biaya admin masing-masing.
+- **Status Pesanan Terstruktur:** Menggunakan *sealed class* untuk mengunci status pesanan (*Pending*, *Paid*, *Shipped*, *Delivered*, *Cancelled*).
+- **Simulasi Pengiriman:** Menghitung ongkos kirim dan estimasi waktu berdasarkan jarak tempuh (Instant dan Same Day).
+- **Laporan Penjualan:** Rekapitulasi jumlah transaksi dan total pendapatan toko.
 
-- Jarak dibulatkan ke atas untuk perhitungan tarif.
-- Jika jarak di luar jangkauan metode yang dipilih, checkout ditolak.
-- Jarak lebih dari 40 km tidak memiliki opsi pengiriman.
+---
 
-## 🧱 Konsep OOP yang Digunakan
+## Logika Bisnis
 
-| Konsep | Penerapan |
-|---|---|
-| **Abstraction** | `Product` (abstract class) dengan `calculateDiscount()` dan `getCategory()` abstrak |
-| **Inheritance** | `ElectronicProduct`, `ClothingProduct`, `FoodProduct` mewarisi `Product` |
-| **Polymorphism** | Tiap kategori menghitung diskon berbeda; interface `PaymentMethod` dan `ShippingMethod` punya banyak implementasi |
-| **Encapsulation** | `price` di `Product` dan `password` di `User` bersifat `private`, diakses lewat metode publik |
-| **Interface** | `PaymentMethod`, `ShippingMethod` |
-| **Sealed class** | `OrderStatus`, `PaymentResult` |
+### 1. Skema Pengiriman Berdasarkan Jarak
+Perhitungan ongkos kirim membulatkan jarak ke atas (misalnya 8,2 km dihitung 9 km). Jika jarak pesanan melebihi jangkauan layanan, sistem otomatis membatalkan proses *checkout*. Pesanan dengan jarak lebih dari 40 km tidak dapat dilayani.
 
-## 📁 Struktur Proyek
+- **Instant (0–15 km):** Tarif Rp 10.000 + Rp 2.500/km (Estimasi 1–3 jam).
+- **Same Day (0–40 km):** Tarif Rp 8.000 + Rp 1.500/km (Estimasi 6–12 jam).
 
-```
+### 2. Aturan Diskon Produk
+- **Elektronik:** Diskon dasar 5%. Mendapat tambahan 10% jika tergolong produk premium, dan tambahan 5% jika masa garansi lebih dari 24 bulan (maksimal 20%).
+- **Pakaian:** Diskon dasar 10%. Mendapat tambahan 15% untuk koleksi musiman (*seasonal*), dan tambahan 5% untuk ukuran besar (XL, XXL, XXXL).
+- **Makanan:** Diskon dasar 5%. Mendapat tambahan 20% jika merupakan produk organik.
+
+### 3. Biaya Layanan Pembayaran
+- **Kartu Kredit:** Biaya 2% dari total belanja (validasi nomor kartu minimal 16 digit dan CVV 3 digit).
+- **Transfer Bank:** Biaya 1% dengan tarif minimal Rp 5.000 (validasi nomor rekening minimal 8 digit).
+- **QRIS:** Biaya 0,5% (validasi kode QR minimal 10 karakter).
+
+---
+
+## Penerapan Konsep PBO
+
+- **Abstraction:** Diterapkan pada `Product` sebagai *abstract class* yang mewajibkan kelas turunannya mendefinisikan implementasi `calculateDiscount()` dan `getCategory()`.
+- **Inheritance:** Kelas `ElectronicProduct`, `ClothingProduct`, dan `FoodProduct` mewarisi properti serta fungsi dasar dari `Product`.
+- **Polymorphism:** Perhitungan harga akhir dan diskon berjalan dinamis tergantung objek aslinya, begitu juga dengan implementasi beragam metode pembayaran dan pengiriman.
+- **Encapsulation:** Properti sensitif seperti `price` pada produk dan `password` pada pengguna diset `private` dan hanya bisa diakses atau divalidasi lewat fungsi perantara.
+- **Interface:** Digunakan pada `PaymentMethod` dan `ShippingMethod` sebagai kontrak modular untuk mempermudah penambahan opsi baru di masa mendatang.
+- **Sealed Class:** Digunakan pada `OrderStatus` dan `PaymentResult` agar seluruh kemungkinan status terdefinisi dengan pasti (*exhaustive checking*) saat dievaluasi menggunakan ekspresi `when`.
+
+---
+
+## Struktur Folder
+
+```text
 src/
-├── Main.kt                      # Titik masuk program (demo)
+├── Main.kt                     # Titik masuk program untuk menjalankan demo
 ├── cart/
-│   └── ShoppingCart.kt
+│   └── ShoppingCart.kt         # Logika keranjang belanja
 ├── order/
-│   ├── Order.kt
-│   └── OrderStatus.kt
+│   ├── Order.kt                # Entitas pesanan
+│   └── OrderStatus.kt          # Definisi sealed class status pesanan
 ├── payment/
-│   ├── PaymentMethod.kt         # Interface + sealed class PaymentResult
-│   ├── CreditCardPayment.kt
-│   ├── BankTransferPayment.kt
-│   └── QRISPayment.kt
+│   ├── PaymentMethod.kt        # Interface pembayaran & sealed class PaymentResult
+│   ├── CreditCardPayment.kt    # Pembayaran via kartu kredit
+│   ├── BankTransferPayment.kt  # Pembayaran via transfer bank
+│   └── QRISPayment.kt          # Pembayaran via QRIS
 ├── product/
-│   ├── Product.kt
-│   ├── ElectronicProduct.kt
-│   ├── ClothingProduct.kt
-│   └── FoodProduct.kt
+│   ├── Product.kt              # Kelas induk abstrak produk
+│   ├── ElectronicProduct.kt    # Kategori produk elektronik
+│   ├── ClothingProduct.kt      # Kategori produk pakaian
+│   └── FoodProduct.kt          # Kategori produk makanan
 ├── shipping/
-│   ├── ShippingMethod.kt        # Interface + ShippingOptions
-│   ├── InstantShipping.kt
-│   └── SameDayShipping.kt
+│   ├── ShippingMethod.kt       # Interface pengiriman & penampung opsi
+│   ├── InstantShipping.kt      # Layanan instan
+│   └── SameDayShipping.kt      # Layanan same day
 ├── system/
-│   └── EcommerceSystem.kt
+│   └── EcommerceSystem.kt      # Pengendali utama sistem toko
 └── user/
-    └── User.kt
+    └── User.kt                 # Entitas pengguna dan proses checkout
 ```
 
-## 💸 Aturan Diskon
+---
 
-| Kategori | Diskon dasar | Tambahan |
-|---|---|---|
-| Elektronik | 5% | +10% jika premium, +5% jika garansi > 24 bulan |
-| Pakaian | 10% | +15% jika seasonal, +5% jika ukuran XL/XXL/XXXL |
-| Makanan | 5% | +20% jika organik |
+## Cara Menjalankan
 
-## 💳 Biaya Pembayaran
-
-| Metode | Biaya |
-|---|---|
-| Kartu Kredit | 2% |
-| Transfer Bank | 1% (minimal Rp 5.000) |
-| QRIS | 0,5% |
-
-## ▶️ Cara Menjalankan
-
-**Prasyarat:** JDK (disarankan 17 atau lebih baru) dan IntelliJ IDEA dengan plugin Kotlin.
-
-1. Clone repository:
+### Menggunakan IntelliJ IDEA
+1. *Clone* repositori ini ke komputer:
    ```bash
-   git clone https://github.com/ryumacherry/Tugas_OOP_Group_III.git
+   git clone [https://github.com/ryumacherry/Tugas_OOP_Group_III.git](https://github.com/ryumacherry/Tugas_OOP_Group_III.git)
    ```
-2. Buka folder proyek di IntelliJ IDEA.
-3. Pastikan folder `src` ditandai sebagai *Sources Root*.
-4. Buka `src/Main.kt`, lalu klik ikon ▶️ di samping `fun main()`, atau klik kanan file dan pilih **Run 'MainKt'**.
+2. Buka folder proyek melalui menu **File > Open** di IntelliJ IDEA.
+3. Pastikan folder `src` sudah ditandai sebagai direktori sumber (*Sources Root*).
+4. Buka berkas `src/Main.kt`, lalu jalankan program dengan menekan tombol **Run** (ikon segitiga hijau) di samping fungsi `main()`.
 
-**Lewat command line** (jika `kotlinc` sudah terpasang):
+### Menggunakan Terminal / Command Line
+Pastikan JDK (versi 17 atau lebih baru) dan `kotlinc` sudah terpasang di sistem.
+
 ```bash
+# Kompilasi seluruh file Kotlin menjadi file jar
 kotlinc $(find src -name '*.kt') -include-runtime -d ecommerce.jar
+
+# Jalankan aplikasi
 java -jar ecommerce.jar
 ```
 
-## 🧪 Contoh Penggunaan
+---
 
-```kotlin
-val toko = ECommerceSystem("Toko Online")
-toko.registerUser("kuyun", "kuyun@mail.com", "rahasia123")
-val user = toko.findUser("kuyun")!!
-
-user.getCart().addItem(produk, 2)
-
-val qris = QRISPayment("QRIS-1234567890", "MERCHANT-01")
-val order = user.checkout(qris, InstantShipping(), distanceKm = 8.0)
-order?.displayOrder()
-```
-
-Contoh keluaran untuk order dengan pengiriman Instant 8 km:
-
-```
-Total Harga : Rp 207.500
-Pengiriman  : Instant (8.0 km, est. 1-3 jam)
-Ongkir      : Rp 30.000
-Total Bayar : Rp 237.500
-```
-
-## 👥 Anggota Kelompok
+## Anggota Tim
 
 | Nama | NIM | Peran |
 |---|---|---|
-| _Ajeng Az Zahra_ | _225443002_ | _Backend Developer 2_ |
-| _Arlisya Rahwitami_ | _225443004_ | _Backend Developer 1_ |
-| _Nabila Khalishah_ | _225443021_ | _Documentation Lead_ |
-| _Qurrata A'yuni_ | _225443023_ | _Project Lead_ |
-| _Renisa Rahmawati_ | _225443025_ | _System Developer_ |
-| _Shiva Nayla Zahra_ | _225443053_ | _Payment Developer_ |
+| Ajeng Az Zahra | 225443002 | Backend Developer 2 |
+| Arlisya Rahwitami | 225443004 | Backend Developer 1 |
+| Nabila Khalishah | 225443021 | Documentation Lead |
+| Qurrata A'yuni | 225443023 | Project Lead |
+| Renisa Rahmawati | 225443025 | System Developer |
+| Shiva Nayla Zahra | 225443053 | Payment Developer |
 
-## 🤝 Berkontribusi
+---
 
-1. Jalankan `git pull origin main` sebelum mulai bekerja.
-2. Buat branch baru: `git checkout -b nama-fitur`
-3. Commit perubahan: `git commit -m "Deskripsi singkat"`
-4. Push branch: `git push -u origin nama-fitur`
-5. Buka **Pull Request** di GitHub untuk ditinjau sebelum digabung ke `main`.
+## Catatan Teknis
 
-Gunakan struktur folder yang sudah ada (`product/`, `order/`, `payment/`, dst.) saat menambah file baru.
-
-## 📌 Catatan
-
-- `ECommerceSystem.getTotalRevenue()` dan `User.totalSpent` menghitung total harga barang (setelah diskon) **tanpa ongkir**.
-- `ShoppingCart` tidak dikosongkan otomatis setelah checkout (`cart.clear()` masih berupa komentar di `User.createOrder()`).
+- Perhitungan pada `ECommerceSystem.getTotalRevenue()` dan pengeluaran di `User.totalSpent` menghitung total harga produk setelah diskon tanpa menjumlahkan ongkos kirim.
+- Pembersihan keranjang secara otomatis setelah *checkout* masih dinonaktifkan (`cart.clear()` di `User.createOrder()` masih berupa komentar) agar data referensi keranjang tetap bisa dibaca saat demonstrasi.
