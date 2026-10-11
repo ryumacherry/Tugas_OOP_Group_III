@@ -1,4 +1,4 @@
-# Sistem E-Commerce Berbasis Konsol (Kotlin)
+# Sistem Manajemen E-Commerce
 
 Proyek ini merupakan simulasi sistem *e-commerce* berbasis konsol (*command-line*) yang dibangun menggunakan bahasa Kotlin. Proyek ini dibuat untuk tugas kuliah Pemrograman Berorientasi Objek (PBO) guna mempraktikkan langsung konsep-konsep utama seperti pewarisan, polimorfisme, abstraksi, enkapsulasi, antarmuka (*interface*), dan *sealed class*.
 
